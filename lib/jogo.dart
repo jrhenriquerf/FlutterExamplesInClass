@@ -8,11 +8,31 @@ import 'package:flutter_examples/components/Bullet.dart';
 import 'package:flutter_examples/components/Dragon.dart';
 import 'package:flutter_examples/components/SpaceShip.dart';
 
+class GameWrapper extends StatelessWidget {
+  final MyGame game;
+  GameWrapper(this.game);
+  @override
+  Widget build(BuildContext context) {
+    return game.widget;
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var game = MyGame();
   Flame.images.loadAll(['spaceship.png', 'dragon.png', 'bullet.png']);
-  runApp(game.widget);
+  runApp(MaterialApp(
+      home: Scaffold(
+    appBar: AppBar(title: Text("space game")),
+    body: Container(
+      decoration: new BoxDecoration(
+          image: new DecorationImage(
+        image: new AssetImage("assets/images/backgroundSpace.jpg"),
+        fit: BoxFit.cover,
+      )),
+      child: GameWrapper(game),
+    ),
+  )));
 }
 
 class MyGame extends BaseGame with TapDetector {
